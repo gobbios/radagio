@@ -1,0 +1,9 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+inst/doc/*.pdf
+inst/doc/*.R
+radagio.Rproj
+vignettes/.build.timestamp
+Rplots.pdf

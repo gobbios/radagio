@@ -1,0 +1,16 @@
+Package: radagio
+Type: Package
+Title: ADAGIO from R
+Version: 0.3.0
+Author: Christof Neumann
+Maintainer: Christof Neumann <christofneumann1@gmail.com>
+Description: Implementation of the ADAGIO ranking system for R.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+Imports: EloRating, EloChoice, network, sna, statnet
+Date: 2018-06-05
+Depends: jpeg
