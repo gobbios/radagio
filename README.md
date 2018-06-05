@@ -10,3 +10,8 @@ To check whether you have it installed already you need to run in your terminal/
 
 The major function is `adagio()`.
 
+To install the package use:
+
+`library(devtools)`
+
+`install_github("gobbios/radagio")`

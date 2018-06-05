@@ -47,13 +47,12 @@ install.packages("network")
 install.packages("EloChoice")
 install.packages("sna")
 install.packages("statnet")
-install.packages("devtools")
 
 # install radagio
 # if you are on Windows:
-install.packages("C:/downloads/rstuff/radagio_0.3.0.tar.gz", repos = NULL, type = "source")
+install.packages("C:/downloads/rstuff/radagio_0.2.91.tar.gz", repos = NULL, type = "source")
 # if you are on a Mac:
-install.packages("~/Desktop/rstuff/radagio_0.3.0.tar.gz", repos = NULL, type = "source")
+install.packages("~/Desktop/rstuff/radagio_0.2.91.tar.gz", repos = NULL, type = "source")
 ```
 
 Alternatively, you can also install directly from GitHub via the `devtools` package:
@@ -63,6 +62,8 @@ library(devtools)
 install_github("gobbios/radagio")
 ```
 
+
+
 To test whether this worked, try:
 
 ```{r, eval = FALSE}
@@ -70,7 +71,7 @@ library(radagio)
 adagio(archie, bottomup = TRUE, preproc = TRUE, plotfig = TRUE)
 ```
 
-This should result in output that contains the results of the ADAGIO software. Also, a figure of the ADAGIO ranking should be produced.
+This should result in some output that contains the results of the ADAGIO software. Also, a figure of the ADAGIO ranking should be produced.
 
 # Examples
 
