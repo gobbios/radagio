@@ -1,5 +1,5 @@
 ---
-title: "notes on `radagio`"
+title: "Notes on `radagio`"
 author: "Christof Neumann"
 date: "`r Sys.Date()`"
 output: pdf_document
@@ -35,7 +35,7 @@ To check whether you have Java installed already you need to run in your termina
 
 # Installation
 
-In order to install the `radagio` package please use the following commands in R. Note that the package file (currently `radagio_0.2.91.tar.gz`) does *not* need to be unpacked. Leave this file as it is and save it somewhere locally on your computer. Also, the file name may change in the future if the packge is updated.
+In order to install the `radagio` package please use the following commands in R. Note that the package file (currently `radagio_0.3.0.tar.gz`, download here: https://doi.org/10.5281/zenodo.1280950) does *not* need to be unpacked. Leave this file as it is and save it somewhere locally on your computer. Also, the file name may change in the future if the packge is updated.
 
 ```{r, eval=FALSE}
 # install other necessary packages:
@@ -79,7 +79,7 @@ library(radagio)
 library(EloRating)
 ```
 
-## Example 1 (Archie et al 2006: family CB)
+## Example 1 (Archie et al. 2006: family CB)
 
 First, we reproduce the example DNH using elephant data (@archie2006; figure 7 in @douglas2017).
 
@@ -88,7 +88,7 @@ res <- adagio(archie, bottomup = TRUE, preproc = TRUE, plotfig = TRUE)
 res$res
 ```
 
-The results of the ADAGIO algorithm (`adagio` column in `res$res`) match the results reported in the paper (p. 28, figure 7), i.e. E and F both have rank 5 (using the bottom-up ranking with pre-processing). The actual figure looks quite different from the graph in the paper, but also here it is apparent that E and F are at the bottom together and all other individuals occupy 'individual' ranks.
+The results of the ADAGIO algorithm (`adagio` column in `res$res`) match the results reported in the paper (p. 28, figure 7), i.e. E and F both have rank 5 (using the bottom-up ranking with preprocessing). The actual figure looks quite different from the graph in the paper, but also here it is apparent that E and F are at the bottom together and all other individuals occupy 'individual' ranks.
 
 Now, let's calculate Elo-ratings and David's scores for that data set.
 
@@ -119,9 +119,9 @@ data.frame(res$res, meanelos = colMeans(elores[[1]]), DSD = round(DSD$normDS, 1)
 
 This table represents the results produced by the ADAGIO software (columns 2, 3 and 4) and the results of recalculations of Elo-ratings and David's scores with our package (`EloRating`).
 
-There are a number of inconsistencies here. The mean Elo-ratings of B and D indicate that they should be ranked 4 and 3 respectively, but this does not match with the results of ADAGIO's calculations of Elo-ratings where the two individuals hold ranks 3 and 4. Similarly, the ranks of E and F do not match for David's score (at least if David's score is based on winning proportions corrected for chance ($D_{ij}$) c.f. @devries2006; column `DSD`).
+There are a number of inconsistencies here. The mean Elo-ratings of B and D indicate that they should be ranked 4 and 3 respectively, but this does not match with the results of ADAGIO's calculations of Elo-ratings where the two individuals hold ranks 3 and 4. Similarly, the ranks of E and F do not match for David's score (at least if David's score is based on winning proportions corrected for chance ($D_{ij}$), @devries2006; column `DSD`).
 
-## Example 2 (Douglas et al 2017, figure 1 and 3b)
+## Example 2 (Douglas et al. 2017, figure 1 and 3b)
 
 ```{r, fig.width=3, fig.height=3}
 data(dnh)
@@ -152,11 +152,11 @@ data.frame(res$res, meanelos = colMeans(elores[[1]]), DSD = round(DSD$normDS, 2)
 ```
 
 
-Here again we see some discrepancies. For example the three individuals (b, d, a) with the highest mean Elo-ratings don't have ranks 1 through 3, but 5, 4 and 2. The two individuals with the highest David's scores (c and f, each with DS=3.00 (column `DSP`)) have different ranks (column `ds`) according to the ADAGIO software although they should be assigned the same rank.
+Here again we see some discrepancies. For example the three individuals (b, d, a) with the highest mean Elo-ratings don't have ranks 1 to 3, but 5, 4 and 2. The two individuals with the highest David's scores (c and f, each with DS=3.00 (column `DSP`)) have different ranks (column `ds`) according to the ADAGIO software although they should be assigned the same rank.
 
-# Pre-processing
+# Preprocessing
 
-The following simulation indicates that this behaviour is not due to the pre-processing although it only checks for results produced with the bottom-up option. Here we submit a number of random matrices to ADAGIO and then check whether the pre-processing option affects the ADAGIO ranks (it does, as expected) and the ranks from Elo-rating and David's scores (it appears not to). The resulting table (`res`) shows in the first column the summed absolute difference in ranks between the two pre-processing options, and the remaining two columns show the same for Elo and DS. It appears that the ADAGIO software produces consistent (albeit questionable, see above) rankings for Elo and DS regardless of pre-processing, i.e. the columns `ELOdiff` and `DSdiff` only contain zeros (i.e. rankings are identical with and without pre-processing), while rankings generated with the ADAGIO method differ depending on whether preprocessing was applied.
+The following simulation indicates that this behaviour is not due to the preprocessing although it only checks for results produced with the bottom-up option. Here we submit a number of random matrices to ADAGIO and then check whether the preprocessing option affects the ADAGIO ranks (it does, as expected) and the ranks from Elo-rating and David's scores (it appears not to). The resulting table (`res`) shows in the first column the summed absolute difference in ranks between the two preprocessing options, and the remaining two columns show the same for Elo and DS. It appears that the ADAGIO software produces consistent (albeit questionable, see above) rankings for Elo and DS regardless of preprocessing, i.e. the columns `ELOdiff` and `DSdiff` only contain zeros (i.e. rankings are identical with and without preprocessing), while rankings generated with the ADAGIO method differ depending on whether preprocessing was applied.
 
 ```{r, eval=FALSE}
 res <- matrix(ncol = 3, nrow = 100, NA)
@@ -165,7 +165,7 @@ for(i in 1:nrow(res)) {
   mat <- matrix(rpois(36, round(runif(1, 1, 10))), ncol = 6)
   diag(mat) <- 0
   colnames(mat) <- rownames(mat) <- LETTERS[1:6]
-  # calculate ADAGIO ranks with and without pre-processing
+  # calculate ADAGIO ranks with and without preprocessing
   res1 <- adagio(mat, bottomup = TRUE, preproc = TRUE, plotfig = FALSE)
   res2 <- adagio(mat, bottomup = TRUE, preproc = FALSE, plotfig = FALSE)
   # absolute differences
@@ -184,8 +184,9 @@ apply(res, MARGIN = 2, FUN = table)
 
 ### Pyramid example
 
+The figure (figure \ref{fig:adagioproblems}) produced by the following code illustrates some severe problems with the ADAGIO software with regard to how the software calculates ranks for Elo-rating and David's scores. 
 
-```{r, results='hide', out.width="8in", fig.align='center', fig.cap="Results of ADAGIO software compared to results from \\texttt{EloRating}. This example comprises six individuals, in which one individual (A) is dominant over all other individuals, while all remaining dyads have tied relationships (a). ADAGIO returns the intended pyramidal structure (d). Average Elo-ratings from 500 random sequences (with lines indicating range), in which the interactions in the matrix may have occured are presented in (b), and David's scores calculated directly from the matrix are in (c). When subjected to the ADAGIO software (v. 1.1) and inspecting the returned ranks of individuals with Elo-rating and David's score, individuals are ranked in a linear order, i.e without tied/shared ranks (e) and (f)."}
+```{r, results='hide', out.width="8in", fig.align='center', fig.cap="Results of ADAGIO software compared to results from \\texttt{EloRating}. This example comprises six individuals, in which one individual (A) is dominant over all other individuals, while all remaining dyads have tied relationships (a). ADAGIO returns the intended pyramidal structure (d). Average Elo-ratings from 500 random sequences (with lines indicating range), in which the interactions in the matrix may have occured are presented in (b), and David's scores calculated directly from the matrix are in (c). When subjected to the ADAGIO software (v. 1.1) and inspecting the returned ranks of individuals with Elo-rating and David's score, individuals are ranked in a linear order, i.e without tied/shared ranks (e) and (f).\\label{fig:adagioproblems}"}
 
 # generate interaction matrix
 mat <- matrix(ncol = 6, nrow = 6, 2)

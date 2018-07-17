@@ -33,7 +33,7 @@ The \code{"mode"} argument determines which software to use for Elo-ratings and 
 \itemize{
   \item \code{"ADAGIO"}: Take ranks for Elo and DS from the ADAGIO software.
   \item \code{"eloRA"}: Calculate ranks for Elo and DS from original scores calculated with the \code{EloRating} (for DS) and \code{EloChoice} (for Elo-rating) packages. The ranking is done via the \code{"average"} option in the \code{rank()} function.
-  \item \code{"eloRM"}: Same as above, but the ranks are derived in the following way: in case of ties the minimum rank is taken and subsequently ranks are shrunk so that there will be no gaps. See examples in \code{\link{ranks}}. 
+  \item \code{"eloRM"}: Same as above, but the ranks are derived in the following way: in case of ties the minimum rank is taken and subsequently ranks are shrunk so that there will be no gaps. See examples in \code{\link{ranks}}.
   \item \code{"eloO"}: Here the original scores for Elo and DS are used, and if \code{metric="cor"} the Pearson correlation is calculated.
 }
 }
