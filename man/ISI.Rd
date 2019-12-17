@@ -27,16 +27,16 @@ The I&SI algorithm (c.f. de Vries 1998) does not necessarily result in a unique 
 \examples{
 \dontrun{
  data(devries98, package = "EloRating")
- h.index(devries98)
+ hindex(devries98)
  ISI(devries98)
 
  ##
  data(adv, package = "EloRating")
- # SEQ <- elo.seq(winner=adv$winner, loser=adv$loser, Date=adv$Date)
- # mat <- creatematrix(SEQ)
- # res <- ISI(mat)
+ SEQ <- elo.seq(winner=adv$winner, loser=adv$loser, Date=adv$Date)
+ mat <- creatematrix(SEQ)
+ res <- ISI(mat)
  # note that this matrix is not sufficiently linear to justify such ordering
- # h.index(mat)}
+ hindex(mat)}
 
 
 }

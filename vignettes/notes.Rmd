@@ -6,12 +6,14 @@ output: pdf_document
 geometry: margin=0.8in
 vignette: >
   %\VignetteIndexEntry{Notes on radagio}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-bibliography: vignetterefs.bib
-csl: animal-behaviour.csl
+  %\VignetteEngine{knitr::rmarkdown}
+bibliography: ../inst/vignetterefs.bib
+csl: ../inst/apa.csl
 link-citations: yes
 linkcolor: blue
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -27,11 +29,18 @@ knitr::opts_chunk$set(size = 'footnotesize', fig.align = 'center')
 
 This package is an R wrapper for the ADAGIO software (http://ngonga.github.io/, https://github.com/ngonga/adagio) that is originally written in Java by Axel Ngonga. 
 
-To run it, you need Java SE Development Kit 8, which is available here: http://www.oracle.com/technetwork/java/javase/downloads/index.html
+To run it, you need Java SE Development Kit 8 or higher, which is available here: http://www.oracle.com/technetwork/java/javase/downloads/index.html
 
 To check whether you have Java installed already you need to run in your terminal/command line:
 
 `java -version`
+
+or you can use the following R command:
+
+```{r}
+cat(system2(Sys.which("java"), "-version"))
+```
+
 
 # Installation
 
@@ -114,7 +123,10 @@ DSP <- DSP[order(DSP$ID), ]
 And put everything together.
 
 ```{r}
-data.frame(res$res, meanelos = colMeans(elores[[1]]), DSD = round(DSD$normDS, 1), DSP = round(DSP$normDS, 1))
+data.frame(res$res, 
+           meanelos = colMeans(elores[[1]]), 
+           DSD = round(DSD$normDS, 1), 
+           DSP = round(DSP$normDS, 1))
 ```
 
 This table represents the results produced by the ADAGIO software (columns 2, 3 and 4) and the results of recalculations of Elo-ratings and David's scores with our package (`EloRating`).
@@ -148,7 +160,10 @@ DSP <- DSP[order(DSP$ID), ]
 
 
 ```{r}
-data.frame(res$res, meanelos = colMeans(elores[[1]]), DSD = round(DSD$normDS, 2), DSP = round(DSP$normDS, 2))
+data.frame(res$res, 
+           meanelos = colMeans(elores[[1]]), 
+           DSD = round(DSD$normDS, 2), 
+           DSP = round(DSP$normDS, 2))
 ```
 
 
@@ -184,7 +199,7 @@ apply(res, MARGIN = 2, FUN = table)
 
 ### Pyramid example
 
-The figure (figure \ref{fig:adagioproblems}) produced by the following code illustrates some severe problems with the ADAGIO software with regard to how the software calculates ranks for Elo-rating and David's scores. 
+The figure (figure \ref{fig:adagioproblems}) produced by the following code illustrates some severe problems with the ADAGIO software with regard to how the software calculates ranks for Elo-rating and David's scores (see @neumann2018a for a more thorough discussion).
 
 ```{r, results='hide', out.width="8in", fig.align='center', fig.cap="Results of ADAGIO software compared to results from \\texttt{EloRating}. This example comprises six individuals, in which one individual (A) is dominant over all other individuals, while all remaining dyads have tied relationships (a). ADAGIO returns the intended pyramidal structure (d). Average Elo-ratings from 500 random sequences (with lines indicating range), in which the interactions in the matrix may have occured are presented in (b), and David's scores calculated directly from the matrix are in (c). When subjected to the ADAGIO software (v. 1.1) and inspecting the returned ranks of individuals with Elo-rating and David's score, individuals are ranked in a linear order, i.e without tied/shared ranks (e) and (f).\\label{fig:adagioproblems}"}
 
@@ -266,5 +281,6 @@ box()
 addfiglabel("(e)")
 ```
 
+\clearpage
 
 # References

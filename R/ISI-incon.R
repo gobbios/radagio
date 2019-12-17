@@ -1,5 +1,3 @@
-# isi 15_07_05
-
 #' number of inconsistencies
 #'
 #' calculate number of inconsistencies
@@ -14,11 +12,9 @@
 #'
 #' @examples
 #' data(bonobos, package = "EloRating")
-#' .incon(bonobos)
+#' radagio:::.incon(bonobos)
 #'
 
-
 .incon <- function(mat) {
-  sum((mat - t(mat))[upper.tri(mat)] < 0, na.rm=T)
+  sum((mat - t(mat))[upper.tri(mat)] < 0, na.rm = TRUE)
 }
-

@@ -25,8 +25,8 @@
 decaxis <- function(xside, xat = c(0, 0.2, 0.4, 0.6, 0.8, 1), ...) {
   # create labels
   labs <- character(length(xat))
-  for(i in 1:length(labs)) {
-    if(xat[i] - round(xat[i]) == 0) {
+  for (i in 1:length(labs)) {
+    if (xat[i] - round(xat[i]) == 0) {
       labs[i] <- as.character(round(xat[i]))
     } else {
       labs[i] <- as.character(xat[i])

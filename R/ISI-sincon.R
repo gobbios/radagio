@@ -1,5 +1,3 @@
-# isi 15_07_05
-
 #' strength of inconsistencies
 #'
 #' calculate strength of inconsistencies
@@ -16,13 +14,10 @@
 #'
 #' @examples
 #' data(bonobos, package = "EloRating")
-#' .sincon(bonobos)
+#' radagio:::.sincon(bonobos)
 #'
-
 
 .sincon <- function(mat) {
   dmat <- .diffmat(mat)
-  sum(dmat[upper.tri(mat)][mat[upper.tri(mat)] < t(mat)[upper.tri(mat)]], na.rm=T)
+  sum(dmat[upper.tri(mat)][mat[upper.tri(mat)] < t(mat)[upper.tri(mat)]], na.rm = TRUE)
 }
-
-

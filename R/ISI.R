@@ -22,16 +22,16 @@
 #' @examples
 #' \dontrun{
 #'  data(devries98, package = "EloRating")
-#'  h.index(devries98)
+#'  hindex(devries98)
 #'  ISI(devries98)
 #'
 #'  ##
 #'  data(adv, package = "EloRating")
-#'  # SEQ <- elo.seq(winner=adv$winner, loser=adv$loser, Date=adv$Date)
-#'  # mat <- creatematrix(SEQ)
-#'  # res <- ISI(mat)
+#'  SEQ <- elo.seq(winner=adv$winner, loser=adv$loser, Date=adv$Date)
+#'  mat <- creatematrix(SEQ)
+#'  res <- ISI(mat)
 #'  # note that this matrix is not sufficiently linear to justify such ordering
-#'  # h.index(mat)}
+#'  hindex(mat)}
 #'
 #'
 #' @export
@@ -50,18 +50,16 @@ ISI <- function(mat, runs = 5000, printmessages = TRUE) {
       return(mat[s, s])
     }
 
-
     largestincon <- function(mat) {
       outmat <- matrix(FALSE, ncol = ncol(mat), nrow = nrow(mat))
       outmat[upper.tri(mat)] <- mat[upper.tri(mat)] < t(mat)[upper.tri(mat)]
-      m <- matrix(1:length(mat), ncol(mat), byrow=FALSE) + ncol(mat) - 1
+      m <- matrix(1:length(mat), ncol(mat), byrow = FALSE) + ncol(mat) - 1
       ms <- na.omit(m[outmat])
       ps <- na.omit(.diffmat(mat)[outmat])
       x <- ms[which(ps == max(ps))]
-      if(length(x) > 1) x<- sample(x, 1)
-      return(c(x %/% ncol(mat), x %% ncol(mat) + 1)  )
+      if(length(x) > 1) x <- sample(x, 1)
+      return(c(x %/% ncol(mat), x %% ncol(mat) + 1))
     }
-
 
     flip1 <- function(mat, pos) {
       s <- 1:ncol(mat)
@@ -79,21 +77,21 @@ ISI <- function(mat, runs = 5000, printmessages = TRUE) {
     laststep <- function(mat) {
       si <- .sincon(mat)
       SWITCH <- FALSE
-      while(SWITCH == FALSE) {
+      while (SWITCH == FALSE) {
         SWITCH <- TRUE
-        for(i in 2:ncol(mat)) {
-          if(mat[i, i - 1] == mat[i - 1, i]) {
+        for (i in 2:ncol(mat)) {
+          if (mat[i, i - 1] == mat[i - 1, i]) {
             di <- di1 <- 0
-            for(k in 1:ncol(mat)) {
+            for (k in 1:ncol(mat)) {
               di <- di + sign(mat[i - 1, k] - mat[k, i - 1])
               di1 <- di1 + sign(mat[i, k] - mat[k, i])
             }
 
-            if(di1 > di) {
+            if (di1 > di) {
               mat <- flip1(mat, c(i - 1, i))
               bestsi <- .sincon(mat)
-              if(bestsi > si) mat <- flip1(mat, c(i - 1, i))
-              if(bestsi <= si) {
+              if (bestsi > si) mat <- flip1(mat, c(i - 1, i))
+              if (bestsi <= si) {
                 si <- bestsi
                 SWITCH <- FALSE
               }
@@ -121,7 +119,7 @@ ISI <- function(mat, runs = 5000, printmessages = TRUE) {
   stuck <- 0
 
   # start loop
-  while(cnt < runs) {
+  while (cnt < runs) {
     cnt <- cnt + 1
     stuck <- stuck + 1
     # create testmat (apply flipping rule) and compare with best mat
@@ -129,7 +127,7 @@ ISI <- function(mat, runs = 5000, printmessages = TRUE) {
     # store as bestmat if better than before
     temp <- c(.incon(testmat), .sincon(testmat))
     compare2isi(temp, bestmetrics)
-    if(compare2isi(temp, bestmetrics)) {
+    if (compare2isi(temp, bestmetrics)) {
       bestmat <- testmat
       bestmetrics <- temp
       stuck <- stuck - 1
@@ -151,17 +149,17 @@ ISI <- function(mat, runs = 5000, printmessages = TRUE) {
 
   }
 
-
-
   # find the best matrix (or matrices with equal minI and minSI)
-  mini <- unlist(lapply(res, .incon)); mini <- which(mini == min(mini))
+  mini <- unlist(lapply(res, .incon))
+  mini <- which(mini == min(mini))
   res <- res[mini]
-  minsi <- unlist(lapply(res, .sincon)); minsi <- which(minsi == min(minsi))
+  minsi <- unlist(lapply(res, .sincon))
+  minsi <- which(minsi == min(minsi))
   res <- res[minsi]
   res <- res[which(!duplicated(lapply(res, colnames)))]
 
   # put zeros back in
-  for(i in 1:length(res)) res[[i]][is.na(res[[i]])] <- 0
+  for (i in 1:length(res)) res[[i]][is.na(res[[i]])] <- 0
 
   # check for adjancents with tie and reorder those according to number of individuals dominated
   res <- lapply(res, laststep)
@@ -170,23 +168,20 @@ ISI <- function(mat, runs = 5000, printmessages = TRUE) {
   names(bestmetrics) <- c("I", "SI")
 
   res2 <- unique(lapply(res, colnames))
-  if(length(res2) > 1) {
-    if(printmessages) message("more than 1 solution")
+  if (length(res2) > 1) {
+    if (printmessages) message("more than 1 solution")
 
     temp <- matrix(ncol=length(res), nrow = nrow(mat))
     rownames(temp) <- colnames(mat)
-    for(i in 1:nrow(mat)) {
+    for (i in 1:nrow(mat)) {
       temp[i, ] <- unlist(lapply(res, function(x) which(colnames(x) == rownames(temp)[i])))
     }
   }
 
-  if(printmessages) {
+  if (printmessages) {
     cat("I =", .incon(res[[1]]), "\n")
     cat("SI =", .sincon(res[[1]]), "\n")
   }
 
-
   return(res)
-
 }
-

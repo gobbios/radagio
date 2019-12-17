@@ -1,5 +1,3 @@
-# isi 15_07_05
-
 #' difference matrix
 #'
 #' difference matrix
@@ -14,12 +12,12 @@
 #'
 #' @examples
 #' data(bonobos, package = "EloRating")
-#' .diffmat(bonobos)
+#' radagio:::.diffmat(bonobos)
 #'
 
 
 .diffmat <- function(mat) {
-  x<-ncol(mat)
-  matrix(rep(0:x, x), ncol=x, byrow=T)[1:x, ]
+  x <- ncol(mat)
+  matrix(rep(0:x, x), ncol = x, byrow = TRUE)[1:x, ]
 }
 

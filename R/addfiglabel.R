@@ -1,4 +1,3 @@
-
 #' add an identifier to subpanels in a plot
 #'
 #' @param lab character, the text to appear (e.g. "(a)")
@@ -27,11 +26,10 @@ addfiglabel <- function(lab, xloc = -1, yloc = 1, ...) {
   # new plot with 0-margins
   par(new = TRUE, mar = c(0, 0, 0, 0))
   # new plot
-  plot(x = 0, y = 0, ann = FALSE, axes = FALSE, type = "n", xlim = c(-1, 1), ylim = c(-1, 1))
+  plot(x = 0, y = 0, ann = FALSE, axes = FALSE, type = "n",
+       xlim = c(-1, 1), ylim = c(-1, 1))
   # add text
   text(x = xloc, y = yloc, labels = lab, xpd = TRUE, adj = c(0, 1), ...)
   # reset graphical parameters
   par(new = FALSE, mar = oldmars)
 }
-
-

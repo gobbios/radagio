@@ -4,7 +4,7 @@
 #'
 #' @return a data.frame
 #' @export
-#' @examples 
+#' @examples
 #' data(archie)
 #' mat2seq(archie)
 
@@ -22,7 +22,9 @@ mat2seq <- function(mat) {
   }
   x <- cbind(winner, loser)
   x <- x[sample(1:nrow(x)), ]
-  Date <- seq(as.Date("2000-01-01"), as.Date("2000-01-01") + length(winner) - 1, by = "day")
-  res <- data.frame(Date, winner=x[,1], loser=x[,2])
+  Date <- seq(from = as.Date("2000-01-01"),
+              to = as.Date("2000-01-01") + length(winner) - 1,
+              by = "day")
+  res <- data.frame(Date, winner = x[,1], loser = x[, 2])
   return(res)
 }

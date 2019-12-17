@@ -4,7 +4,8 @@
 \alias{datagenfunc}
 \title{Data generation}
 \usage{
-datagenfunc(gs, Nintm, mode = "lin", shrinkranks = TRUE, allowties = TRUE)
+datagenfunc(gs, Nintm, mode = "lin", shrinkranks = TRUE,
+  allowties = TRUE)
 }
 \arguments{
 \item{gs}{integer, group size}

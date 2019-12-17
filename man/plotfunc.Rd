@@ -4,8 +4,8 @@
 \alias{plotfunc}
 \title{Plotting simulation results}
 \usage{
-plotfunc(reslist, ov, metric = c("euc", "cor"), mode = c("ADAGIO", "eloRA",
-  "eloRM", "eloO"), ylimits = NULL, linesstyle = FALSE)
+plotfunc(reslist, ov, metric = c("euc", "cor"), mode = c("ADAGIO",
+  "eloRA", "eloRM", "eloO"), ylimits = NULL, linesstyle = FALSE)
 }
 \arguments{
 \item{reslist}{the output of the simulation steps (see vignettes and appendices of manuscript)}
